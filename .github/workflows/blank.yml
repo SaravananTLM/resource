@@ -1,20 +1,26 @@
-name: Deploy to CPanel
+name: Deploy to cPanel
+
 on:
   push:
     branches:
-      - main
+      - main # or the branch you want to deploy
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Deploy to CPanel
-        uses: sebastianroming/cpanel-deploy-action@v1
-        with:
-         server:  ${{ secrets.ftp_server }}
-         username:  ${{ secrets.ftp_username }}
-         password: ${{ secrets.ftp_password }}
-         directory: /public_html
-         exclude: "*.git*"
 
+      - name: Install dependencies
+        run: |
+          npm install # or any other dependency installation command
+
+      - name: Deploy to cPanel
+        uses: SamKirkland/cpanel-git-deploy@v4
+        with:
+          cpanel_url: ${{ secrets.ftp_server }}
+          cpanel_username: ${{ secrets.ftp_username }}
+          cpanel_password: ${{ secrets.ftp_password }}
+          cpanel_directory: public_html/
