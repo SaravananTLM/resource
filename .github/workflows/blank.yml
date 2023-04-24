@@ -24,3 +24,5 @@ jobs:
           username:  ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           directory: public_html/
+          state-name: ftp-deploy-sync-state.json
+          dry-run: true
